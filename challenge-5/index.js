@@ -1,19 +1,10 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const path = require('path');
-
-const connectDB = require('./config/database');
 
 const systemRoutes = require('./routes/system');
 const directoryRoutes = require('./routes/directory');
 const serviceRoutes = require('./routes/service');
-const executeCommand = require('./utils/commandExecutor') ;
 
 const port = 3000 ; 
-
-
-dotenv.config();
 
 const app = express();
 
@@ -24,16 +15,6 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views','views');
 app.use(express.static('public'));
-
-
-app.use('/api/system', systemRoutes);
-app.post('/api/system/execute-command', (req,res)=>{
-  executeCommand(
-    req.body.command);
-});
-
-
-connectDB();
 
 
 app.use('/api/system', systemRoutes);

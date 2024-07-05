@@ -1,30 +1,18 @@
 const { exec } = require('child_process');
-const Command = require('../models/commandModel');
 const os = require('os');
 
-async function executeSystemCommand(req, res) {
+async function executeSystemCommand(req, res)  {
+
   const command = req.body.command;
 
   exec(command, (error, stdout, stderr) => {
-    let commandOutput;
+    let commandOutput = '';
     if (error) {
       commandOutput = `Error: ${error.message}`;
     } else if (stderr) {
       commandOutput = `Error: ${stderr}`;
     } else {
       commandOutput = stdout;
-    }
-
-    // Save the command and its output to the database
-    const newCommand = new Command({
-      command,
-      output: commandOutput,
-    });
-
-    try {
-      newCommand.save();
-    } catch (err) {
-      console.error('Error saving command to database:', err);
     }
 
     res.render('dashboard', { 

@@ -1,0 +1,43 @@
+
+.body {
+  font-family: Arial, sans-serif;  
+  margin: 0;
+  padding: 0;
+  background-color: #fff; 
+  display: flex;
+  justify-content: center;  
+  align-items: center; 
+  min-height: 100vh; 
+}
+body{
+  text-align: center;  /* Center text within container */
+  padding: 40px;  /* Add some padding for spacing */
+  background-color: #f0f0f0;  /* Light gray background for the container */
+  border-radius: 5px;  /* Rounded corners for a softer look */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Subtle shadow for depth */
+  width: 400px;  /* Set a fixed width for the container */
+  margin: 0 auto;  /* Center the container horizontally */
+}
+
+
+h1 {
+  font-size: 2em;  /* Increase font size for emphasis */
+  margin-bottom: 20px;
+  color: #333;  /* Darker text color for the title */
+}
+
+
+a {
+  text-decoration: none;  /* Remove underline */
+  color: #007bff;  /* Blue color for links */
+  padding: 10px 20px;
+  border: 1px solid transparent;  /* Remove default border */
+  border-radius: 3px;
+  margin: 5px;  /* Add some space between links */
+  display: inline-block;  /* Allow spacing between links */
+  transition: background-color 0.2s ease-in-out;  /* Smooth hover effect */
+}
+s
+a:hover {
+  background-color: #e0e0e0;  /* Light gray background on hover */
+}

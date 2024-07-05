@@ -1,0 +1,78 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5; /* Light gray background */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+  }
+  
+  /* Meeting Title */
+  h1 {
+    text-align: center;
+    padding: 20px 0; /* Add some top and bottom padding */
+    font-size: 1.5em;
+    font-weight: bold; /* Make the title bolder */
+    border-bottom: 1px solid #ddd; /* Add subtle bottom border */
+  }
+  
+  /* Video Grid Container */
+  #video-grid {
+    flex: 1; /* Take up remaining space after header */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid layout */
+    gap: 10px;
+  }
+  
+  /* Individual Video Styles */
+  video {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover; /* Crop videos to fit the container */
+  }
+  
+  /* Chat Area */
+  #chat {
+    flex: 0 0 auto; /* Don't grow or shrink, take remaining space */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 200px;
+    overflow-y: scroll; /* Enable scrolling for long chats */
+    background-color: #fff; /* White background for better readability */
+  }
+  
+  #chat p {
+    margin: 5px 0;
+    font-size: 0.9em; /* Slightly smaller font for chat messages */
+  }
+  
+  /* Chat Input Area */
+  #chat-message {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    font-size: 0.9em; /* Match chat message font size */
+    resize: none; /* Disable resizing of the chat message input */
+  }
+  
+  /* Send Button */
+  button[onclick="sendMessage()"] {
+    background-color: #4285f4; /* Google Meet blue color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out; /* Smooth hover effect */
+  }
+  
+  button[onclick="sendMessage()"]:hover {
+    background-color: #337ab7; /* Darker blue on hover */
+  }
+  

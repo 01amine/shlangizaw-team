@@ -9,15 +9,32 @@
   <h1>Dashboard</h1>
   <div id="metrics">
     <h2>System Metrics</h2>
-    <!-- Display system metrics here -->
-  </div>
-  <div id="directory">
-    <h2>Directory Explorer</h2>
-    <!-- Directory explorer functionality here -->
-  </div>
-  <div id="services">
-    <h2>Service Manager</h2>
-    <!-- Service management functionality here -->
+    <div class="circle-container">
+      <div class="circle" id="cpuUser">
+        <div class="inner-circle">
+          <span class="percent"><%= cpuUsage.user %>%</span>
+          <span class="label">CPU User</span>
+        </div>
+      </div>
+      <div class="circle" id="cpuSystem">
+        <div class="inner-circle">
+          <span class="percent"><%= cpuUsage.sys %>%</span>
+          <span class="label">CPU System</span>
+        </div>
+      </div>
+      <div class="circle" id="cpuIdle">
+        <div class="inner-circle">
+          <span class="percent"><%= cpuUsage.idle %>%</span>
+          <span class="label">CPU Idle</span>
+        </div>
+      </div>
+      <div class="circle" id="ramUsage">
+        <div class="inner-circle">
+          <span class="percent"><%= ramUsage.usagePercent %>%</span>
+          <span class="label">RAM Usage</span>
+        </div>
+      </div>
+    </div>
   </div>
   <div id="commands">
     <h2>Execute Command</h2>
@@ -29,5 +46,16 @@
       <pre><%= commandOutput %></pre>
     <% } %>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const circles = document.querySelectorAll('.circle');
+      circles.forEach(circle => {
+        const percent = circle.querySelector('.percent').innerText.replace('%', '');
+        const angle = percent * 3.6;
+        circle.style.background = `conic-gradient(#4CAF50 ${angle}deg, #ddd ${angle}deg)`;
+      });
+    });
+  </script>
 </body>
 </html>

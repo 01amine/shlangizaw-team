@@ -15,6 +15,6 @@ async function executeCommand(command) {
   }
 }
 
-module.exports = {
-  executeCommand,
-};
+module.exports = 
+  executeCommand()
+;

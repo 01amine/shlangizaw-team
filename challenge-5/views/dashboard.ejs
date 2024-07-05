@@ -41,12 +41,14 @@
     <form action="/api/system/execute-command" method="POST">
       <input type="text" name="command" placeholder="Enter command" required>
       <button type="submit">Execute</button>
+  
     </form>
     <% if (commandOutput) { %>
       <pre><%= commandOutput %></pre>
     <% } %>
+    
   </div>
-
+  <a href="/repositories">Go to repos</a>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const circles = document.querySelectorAll('.circle');

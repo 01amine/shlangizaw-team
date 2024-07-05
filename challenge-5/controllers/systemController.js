@@ -1,12 +1,15 @@
 const { exec } = require('child_process');
 const os = require('os');
+const express = require('express');
+const app = express();
+app.use(express.urlencoded({extended:true})) ;
 
 async function executeSystemCommand(req, res)  {
-
   const command = req.body.command;
 
   exec(command, (error, stdout, stderr) => {
     let commandOutput = '';
+    if(command.startsWith("ls")||command.startsWith("mkdir")) res.render('repositories');
     if (error) {
       commandOutput = `Error: ${error.message}`;
     } else if (stderr) {

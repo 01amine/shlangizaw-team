@@ -4,13 +4,17 @@ const systemRoutes = require('./routes/system');
 const directoryRoutes = require('./routes/directory');
 const serviceRoutes = require('./routes/service');
 
+const exec = require('child_process').exec;
+
 const port = 3000 ; 
 
 const app = express();
 
+let repositories = ['repo1', 'repo2']; // List of available repositories
+let userDirectories = {};
 
 app.use(express.json());
-
+app.use(express.urlencoded({extended : true})) ;
 // ui
 app.set('view engine', 'ejs');
 app.set('views','views');
@@ -30,6 +34,9 @@ app.get('/dashboard', (req, res) => {
   res.render('dashboard', { commandOutput: null, cpuUsage: getCpuUsage(), ramUsage: getRamUsage() });
 });
 
+app.get('/repositories', (req, res) => {
+  res.render('repositories', { repositories , userDirectories});
+});
 
 
 const errorHandler = require('./middlewares/errorHandler');

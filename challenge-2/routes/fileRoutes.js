@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const {
+    getFile,
+    getFiles,
+    uploadFile,
+    deleteFile
+} = require("../controllers/filesController.js");
 
-router.route('/').get((req,res) => {
-    res.status(200).json("files succeffully retrieved");
-});
+router.route('/').get(getFiles);
 
 router.route('/:id').get((req,res) => {
     res.status(200).json(`files ${req.params.id} succeffully retrieved`);
 });
 
-router.route('/').post((req,res) => {
-    res.status(200).json("files succeffully added");
-});
+router.route('/').post(uploadFile);
 
 router.route('/:id').delete((req,res) => {
     res.status(200).json(`files ${req.params.id} succeffully deleted`);

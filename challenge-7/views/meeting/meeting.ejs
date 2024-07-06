@@ -6,8 +6,12 @@
   <title>Meeting Room</title>
   <link rel="stylesheet" href="/css/meetingStyle.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/socket.io@3.0.3/dist/socket.io.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module">
+    import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+  </script>
   <style>
     video {
       width: 100%;
@@ -21,51 +25,72 @@
   <textarea id="chat-message" placeholder="Type your message..."></textarea>
   <button onclick="sendMessage()">Send</button>
   <div id="chat"></div>
+  <script src="/socket.io/socket.io.js"></script>
   <script>
-    const socket = io();
-    const videoGrid = document.getElementById('video-grid');
-    const myVideo = document.createElement('video');
-    myVideo.muted = true;
+    document.addEventListener("DOMContentLoaded", () => {
+      const socket = io();
+      const videoGrid = document.getElementById('video-grid');
+      const myVideo = document.createElement('video');
+      myVideo.muted = true;
 
-    navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true
-    }).then(stream => {
-      addVideoStream(myVideo, stream);
+      navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      }).then(stream => {
+        addVideoStream(myVideo, stream);
 
-      socket.emit('join-meeting', ROOM_ID, 10);
-
-      socket.on('user-connected', userId => {
-        connectToNewUser(userId, stream);
+        document.getElementById('share-screen').addEventListener('click', () => {
+          navigator.mediaDevices.getDisplayMedia({
+            video: true
+          }).then(screenStream => {
+            socket.emit('share-screen', ROOM_ID, screenStream.id);
+            addVideoStream(document.createElement('video'), screenStream);
+          }).catch(err => {
+            console.error('Error sharing screen:', err);
+          });
+        });
       });
-    });
+        socket.emit('join-meeting', ROOM_ID);
 
-    socket.on('chat-message', message => {
-      const chat = document.getElementById('chat');
-      chat.innerHTML += `<p>${message}</p>`;
-    });
-
-    function addVideoStream(video, stream) {
-      video.srcObject = stream;
-      video.addEventListener('loadedmetadata', () => {
-        video.play();
+        socket.on('user-connected', userId => {
+          connectToNewUser(userId, stream);
+        });
       });
-      videoGrid.append(video);
-    }
 
-    function connectToNewUser(userId, stream) {
-      const call = peer.call(userId, stream);
-      const video = document.createElement('video');
-      call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream);
+      socket.on('chat-message', message => {
+        const chat = document.getElementById('chat');
+        chat.innerHTML += `<p>${message}</p>`;
       });
-    }
 
-    function sendMessage() {
-      const message = document.getElementById('chat-message').value;
-      socket.emit('send-chat-message', ROOM_ID, message);
-      document.getElementById('chat-message').value = '';
+      function addVideoStream(video, stream) {
+        video.srcObject = stream;
+        video.addEventListener('loadedmetadata', () => {
+          video.play();
+        });
+        videoGrid.append(video);
+      }
+
+      function connectToNewUser(userId, stream) {
+        const call = peer.call(userId, stream);
+        const video = document.createElement('video');
+        call.on('stream', userVideoStream => {
+          addVideoStream(video, userVideoStream);
+        });
+      }
+
+      function sendMessage() {
+        const message = document.getElementById('chat-message').value;
+        socket.emit('send-chat-message', ROOM_ID, message);
+        document.getElementById('chat-message').value = '';
+      }
+    
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
     }
   </script>
+  <button id="share-screen">Share Screen</button>
 </body>
 </html>

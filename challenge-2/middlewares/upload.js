@@ -1,13 +1,14 @@
 const express = require('express');
 const multer  = require('multer');
 const path = require('path');
+const { countFiles } = require('../controllers/databaseController.js');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, path.join(__dirname, '../public/uploads'));
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now()+file.originalname)
+        cb(null, countFiles)
       }
 })
 

@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 exports.createMeeting = async (req, res) => {
   const { code } = req.body;
-  const host = req.user.id;
+  const host = req.user.userId;
   try {
     const meeting = await Meeting.create({ code, host });
     res.redirect(`/meeting/${meeting.code}`);

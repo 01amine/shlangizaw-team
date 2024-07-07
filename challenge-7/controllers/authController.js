@@ -8,7 +8,7 @@ exports.register = async (req, res) => {
     const user = await User.create({ name, email, password });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.cookie('token', token, { httpOnly: true });
-    res.redirect('/');
+    res.redirect('/home');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
@@ -24,7 +24,7 @@ exports.login = async (req, res) => {
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.cookie('token', token, { httpOnly: true });
-    res.redirect('/');
+    res.redirect('/home');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
@@ -33,5 +33,5 @@ exports.login = async (req, res) => {
 
 exports.logout = (req, res) => {
   res.clearCookie('token');
-  res.redirect('/login');
+  res.redirect('/');
 };

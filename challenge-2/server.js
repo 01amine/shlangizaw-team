@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const errorHandler = require('./middlewares/errorhandler.js');
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 
 
 app.use('/api/files', require('./routes/fileRoutes.js'));

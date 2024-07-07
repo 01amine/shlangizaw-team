@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const errorHandler = require('./middlewares/errorhandler.js');
+const dotenv = require("dotenv");
 
 
 app.use('/api/files', require('./routes/fileRoutes.js'));

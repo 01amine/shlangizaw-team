@@ -43,23 +43,31 @@ const updateFileInfo = async (req, res) => {
 //@desc create new file
 //@route POST /uploadFileInfo
 //@access Public
-const createFileInfo = asyncHandler(async (req, res) => {
+const createFileInfo = async (req, res) => {
     const {
         ID,
-        originalname,
+        originalName,
         filename,
         path,
         size,
         mimetype,
         uploadDate
     } = req.body;
-    console.log(req.body.originalname)
-    const files = await File.find();
-    if (!files) {
+
+    const file = await File.create({ 
+        ID,
+        originalName,
+        filename,
+        path,
+        size,
+        mimetype,
+        uploadDate
+    });
+    if (!file) {
         return res.status(500);
     }
     res.status(200).json({ message : "file created successfully"});
-});
+};
 
 //@desc Get number of files
 //@route GET /api/countFiles

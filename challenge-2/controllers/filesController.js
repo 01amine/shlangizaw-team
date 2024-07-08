@@ -3,6 +3,7 @@ const fs = require('fs');
 const asyncHandler = require("express-async-handler");
 const {createFileInfo,
     deleteFileInfo,
+    countFiles
 } = require("../controllers/databaseController.js")
 
 //@desc retrieve all files
@@ -40,6 +41,7 @@ const getFile = asyncHandler( async (req, res) => {
 //@route POST /upload
 //@access Public
 const addFile = asyncHandler( async(req, res) => {
+    console.log(countFiles);
     console.log('Uploaded file:', req.file);
     res.status(201).json({ message: 'File uploaded successfully', file: req.file })
 

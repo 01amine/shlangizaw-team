@@ -22,7 +22,7 @@
   <div id="chat"></div>
   <button id="share-screen">Share Screen</button>
   <script>
-    const ROOM_ID = 'your-room-id'; // Replace with your actual room ID
+    const ROOM_ID = "<%= roomId %>"; 
     const socket = io();
     const videoGrid = document.getElementById('video-grid');
     const myVideo = document.createElement('video');

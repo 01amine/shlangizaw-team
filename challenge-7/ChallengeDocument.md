@@ -22,3 +22,5 @@ meetings to be created at the same time on the same server. 100%
 
 - Allow users to open their camera during the meeting. 100%
 
+### Bonus
+ - sharing screen. 100%

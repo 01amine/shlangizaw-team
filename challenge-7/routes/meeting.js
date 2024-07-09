@@ -1,8 +1,8 @@
 const express = require('express');
 const { createMeeting, joinMeeting } = require('../controllers/meetingController');
 const router = express.Router();
-
-router.post('/create', createMeeting);
-router.post('/join', joinMeeting);
+const authmiddlware = require('../middlewares/auth');
+router.post('/create', authmiddlware,createMeeting);
+router.post('/join', authmiddlware,joinMeeting);
 
 module.exports = router;

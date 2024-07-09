@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const Message = require('./models/Message');
 const User = require('./models/User');
-
+const authmiddlware = require('./middlewares/auth');
 
 const app = express();
 
@@ -41,13 +41,31 @@ app.use(express.static('public'));
 app.use('/auth', authRoutes);
 app.use('/meeting', meetingRoutes);
 app.use('/chat', chatRoutes);
+app.get('/', (req, res) => {
+  res.render('index');
+});
+app.get('/home', authmiddlware,(req,res)=>{
+  res.render('home');
+})
+app.get('/auth/register', (req, res) => {
+  res.render('auth/register');
+});
+app.get('/auth/login', (req, res) => {
+  res.render('auth/login');
+});
+app.get('/meeting/create',authmiddlware,(req, res) => {
+  res.render('meeting/create');
+});
+app.get('/meeting/join',authmiddlware, (req, res) => {
+  res.render('meeting/join');
+});
 
 
 
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
   if (token) {
-    jwt.verify(token, process, (err, decoded) => {
+    jwt.verify(token, 'your_jwt_secret', (err, decoded) => {
       if (err) {
         return next(new Error('Authentication error'));
       }
@@ -58,7 +76,6 @@ io.use((socket, next) => {
     next(new Error('Authentication error'));
   }
 });
-
 
 io.on('connection', socket => {
   socket.on('join-meeting', async (roomId) => {
@@ -85,32 +102,6 @@ io.on('connection', socket => {
   socket.on('share-screen', (roomId, screenStreamId) => {
     io.to(roomId).emit('screen-shared', screenStreamId);
   });
-});
-
-
-
-app.get('/', (req, res) => {
-  res.render('index');
-});
-app.get('/home',(req,res)=>{
-  res.render('home');
-})
-app.get('/auth/register', (req, res) => {
-  res.render('auth/register');
-});
-app.get('/auth/login', (req, res) => {
-  res.render('auth/login');
-});
-app.get('/meeting/create',(req, res) => {
-  res.render('meeting/create');
-});
-app.get('/meeting/join',( req, res) => {
-  res.render('meeting/join');
-});
-
-app.get('/meeting/:meetingCode',(req,res)=>{
-  const roomId = req.params.meetingCode;
-  res.render('meeting/meeting',{roomId });
 });
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -7,8 +7,7 @@ function authmiddlware(req, res, next){
         if (err) {
           return res.status(401).send('Unauthorized');
         }
-        req.id = decoded.id;
-       
+        req.userId = decoded.id;
         next();
       });
     } else {

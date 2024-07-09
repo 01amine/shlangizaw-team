@@ -1,10 +1,9 @@
 const Meeting = require('../models/Meeting');
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-exports.createMeeting = async (req, res) => {
 
+exports.createMeeting = async (req, res) => {
   const { code } = req.body;
-  const host = req.id;
+  const host = req.user.userId;
   try {
     const meeting = await Meeting.create({ code, host });
     res.redirect(`/meeting/${meeting.code}`);
@@ -16,7 +15,7 @@ exports.createMeeting = async (req, res) => {
 
 exports.joinMeeting = async (req, res) => {
   const { code } = req.body;
-  const participant = req.id;
+  const participant = req.user.id;
   try {
     const meeting = await Meeting.findOne({ code });
     if (!meeting) {

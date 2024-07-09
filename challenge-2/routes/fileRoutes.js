@@ -9,7 +9,7 @@ const {addFile,
 
 router.get('/', getFiles)
 router.get('/:id', getFile)
-router.post('/upload', upload.single('file'), addFile).post('')
+router.post('/upload', upload.single('file'), addFile)
 router.delete('/:id', deleteFile)
 
 module.exports = router;
